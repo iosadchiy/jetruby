@@ -1,7 +1,10 @@
 language: ruby
 rvm:
   - 2.5
-cache: bundler
+cache:
+  - bundler
+  directories:
+     - /home/travis/.rvm/
 before_install:
   - gem install bundler
 script:
