@@ -1,24 +1,5 @@
-# README
+# Appointments management system
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+[![Build Status](https://travis-ci.com/iosadchiy/jetruby.svg?token=QUNxuzBR6zxceYJsESN1&branch=master)](https://travis-ci.com/iosadchiy/jetruby)
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Heroku: https://jetruby-iosadchiy.herokuapp.com/
