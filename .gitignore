@@ -26,6 +26,7 @@
 /config/master.key
 
 spec/examples.txt
+coverage
 
 
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
