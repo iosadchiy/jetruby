@@ -1,12 +1,11 @@
 language: ruby
-rvm:
-  - 2.5
 cache:
   bundler: true
-  directories:
-     - /home/travis/.rvm/
+addons:
+  chrome: stable
 before_install:
   - gem install bundler
 script:
-  - bundle exec rake
+  - bundle exec rails db:test:prepare
   - bundle exec rubocop app spec config
+  - bundle exec rails spec
