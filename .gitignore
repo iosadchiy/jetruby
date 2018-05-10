@@ -27,6 +27,7 @@
 
 spec/examples.txt
 coverage
+.env
 
 
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
