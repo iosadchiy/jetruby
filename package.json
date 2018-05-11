@@ -1,7 +1,5 @@
 {
   "name": "jetruby",
   "private": true,
-  "dependencies": {
-    "react_ujs": "^2.4.4"
-  }
+  "dependencies": {}
 }
