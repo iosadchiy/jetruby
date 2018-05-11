@@ -80,6 +80,3 @@ test:
 #
 production:
   <<: *default
-  database: jetruby_production
-  username: jetruby
-  password: <%= ENV['JETRUBY_DATABASE_PASSWORD'] %>
