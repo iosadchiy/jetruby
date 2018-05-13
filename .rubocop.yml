@@ -7,3 +7,7 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 Style/StringLiterals:
   Enabled: false
+Layout/SpaceBeforeBlockBraces:
+  Enabled: false
+Layout/SpaceInsideBlockBraces:
+  Enabled: false

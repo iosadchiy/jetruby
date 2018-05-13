@@ -1,9 +1,11 @@
 h1 Appointments
 
+p= link_to 'create an appointment', [:new, :appointment]
+
 - if @appointments.empty?
   p No results
 - else
   ul
     - @appointments.each do |appointment|
-      li= appointment.title
+      li= link_to appointment, [:edit, appointment]
 

@@ -11,10 +11,11 @@
 #  updated_at :datetime         not null
 #
 
-class Appointment < ApplicationRecord
-  enum state: [:pending, :confirmed, :canceled]
-
-  def to_s
-    title
+FactoryBot.define do
+  factory :appointment do
+    title { Faker::RickAndMorty.quote }
+    state :confirmed
+    starts_at { Time.now + 1.hour }
+    ends_at { Time.now + 2.hours }
   end
 end
