@@ -3,7 +3,6 @@
 # Table name: appointments
 #
 #  id         :bigint(8)        not null, primary key
-#  ends_at    :datetime
 #  starts_at  :datetime
 #  state      :integer
 #  title      :string
@@ -13,6 +12,14 @@
 
 class Appointment < ApplicationRecord
   enum state: [:pending, :confirmed, :canceled]
+
+  def ends_at
+    starts_at + duration
+  end
+
+  def duration
+    1.hour
+  end
 
   def to_s
     title
