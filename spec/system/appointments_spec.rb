@@ -1,4 +1,8 @@
 RSpec.describe "Appointments" do
+  before do
+    sign_in
+  end
+
   describe "#index" do
     context "no appointments" do
       it "says no results" do

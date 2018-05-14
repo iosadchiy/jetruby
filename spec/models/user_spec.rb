@@ -24,7 +24,8 @@ RSpec.describe User, type: :model do
     end
 
     it "updates user" do
-      u = create(:user, uid: auth.uid, provider: auth.provider, email: "vasya@example.com")
+      u = create(:user, email: "vasya@example.com")
+      auth.uid = u.uid
       expect{User.from_omniauth(auth)}.to change{u.reload.email}.from("vasya@example.com").to("test@example.com")
     end
   end

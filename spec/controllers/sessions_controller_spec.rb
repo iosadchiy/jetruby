@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe SessionsController, type: :controller do
-  let(:auth) { build_auth }
-  let!(:user) { create :user, uid: auth.uid, provider: auth.provider }
+  let!(:user) { create :user }
+  let(:auth) { build_auth(user) }
 
   describe "GET #create" do
     it "creates a user session" do
