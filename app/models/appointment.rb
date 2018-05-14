@@ -44,6 +44,8 @@ class Appointment < ApplicationRecord
   end
 
   def to_s
-    title
+    from = starts_at.to_s(:short)
+    to = ends_at.to_s(:short)
+    "#{title}: from #{from} to #{to}"
   end
 end
