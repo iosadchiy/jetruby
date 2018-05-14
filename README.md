@@ -5,3 +5,12 @@
 
 
 Heroku: https://jetruby-iosadchiy.herokuapp.com/
+
+
+## Choice explanation
+
+### User authentication
+
+Google OAuth was chosen to reduce the number of actions required from the user and to simplify the implementation. The main alternatives to OAuth are the user/password authentication, HTTP Basic authentication, and more exotic methods like one-time passwords.
+
+Only one authentication provider is supported. Multiple providers might be supported with an authentication framework (e.g. devise).
