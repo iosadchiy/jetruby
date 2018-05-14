@@ -18,6 +18,7 @@ class Appointment < ApplicationRecord
   DURATION = 1.hour
   enum state: [:pending, :confirmed, :canceled]
 
+  validates :title, presence: true
   validates :starts_at, presence: true
   validate do
     unless clashes.empty?

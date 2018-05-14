@@ -42,6 +42,10 @@ RSpec.describe Appointment, type: :model do
       expect(build(:appointment, starts_at: "arstarst")).to be_invalid
       expect(build(:appointment, starts_at: "2018-05-13 20:45")).to be_valid
     end
+
+    it "requires title" do
+      expect(build(:appointment, title: "")).to be_invalid
+    end
   end
 
   describe "#clashes" do
