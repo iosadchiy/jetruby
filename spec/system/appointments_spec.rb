@@ -28,7 +28,7 @@ RSpec.describe "Appointments" do
     it "can create an appointment" do
       visit "/appointments/new"
       fill_in "Title", with: "A new appointment"
-      fill_in "Starts at", with: Time.now.in(1.day).to_s(:db)
+      fill_in "Starts at", with: Time.current.in(1.day).to_s(:db)
       click_button "Submit"
 
       expect(current_url).to end_with("/appointments")

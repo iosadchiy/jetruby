@@ -22,13 +22,13 @@ RSpec.describe Appointment, type: :model do
   end
 
   it "lasts for 1 hour" do
-    a = build(:appointment, starts_at: Time.now)
+    a = build(:appointment, starts_at: Time.current)
     expect(a.ends_at - a.starts_at).to eql 1.hour.to_f
   end
 
   describe "validations" do
     it "does not allow clashes" do
-      t = Time.now+1.hour
+      t = Time.current+1.hour
       create(:appointment, starts_at: t)
 
       expect(build(:appointment, starts_at: t-59.minutes)).to be_invalid
@@ -49,7 +49,7 @@ RSpec.describe Appointment, type: :model do
   end
 
   describe "#clashes" do
-    let(:t) { Time.now }
+    let(:t) { Time.current }
     let!(:a1) { create(:appointment, starts_at: t)}
     let!(:a2) { create(:appointment, starts_at: t+2.hours)}
 

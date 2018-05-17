@@ -20,7 +20,7 @@ FactoryBot.define do
     state :confirmed
     starts_at {
       t = Appointment.order(starts_at: :desc).pluck(:starts_at).first
-      t ? t+1.hour : Time.now
+      t ? t+1.hour : Time.current
     }
   end
 end
