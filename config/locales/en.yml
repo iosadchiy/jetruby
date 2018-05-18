@@ -31,6 +31,9 @@
 
 en:
   require_login: "You must be logged in to access this section"
+  application:
+    top_nav:
+      home: Home
   appointments:
     appointment:
       confirm: confirm
