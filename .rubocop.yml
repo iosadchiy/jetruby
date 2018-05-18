@@ -11,3 +11,7 @@ Layout/SpaceBeforeBlockBraces:
   Enabled: false
 Layout/SpaceInsideBlockBraces:
   Enabled: false
+Layout/SpaceAroundEqualsInParameterDefault:
+  EnforcedStyle: no_space
+GitHub/RailsViewRenderLiteral:
+  Enabled: false

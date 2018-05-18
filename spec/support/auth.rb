@@ -1,4 +1,4 @@
-def build_auth(user = nil)
+def build_auth(user=nil)
   user ||= create(:user)
   OmniAuth::AuthHash.new({
     provider: "google_oauth2",
@@ -11,12 +11,12 @@ def build_auth(user = nil)
   })
 end
 
-def stub_omniauth(user = nil)
+def stub_omniauth(user=nil)
   OmniAuth.config.test_mode = true
   OmniAuth.config.mock_auth[:google_oauth2] = build_auth(user)
 end
 
-def sign_in(user = nil)
+def sign_in(user=nil)
   stub_omniauth(user)
   visit "/auth/google_oauth2"
   expect(page).to have_content("Sign out")

@@ -9,10 +9,12 @@ class AppointmentsController < ApplicationController
 
   def edit
     @appointment = find_appointment
+    @appointment.build_nested
   end
 
   def new
     @appointment = appointments.new
+    @appointment.build_nested
   end
 
   def create
@@ -51,6 +53,10 @@ class AppointmentsController < ApplicationController
   def appointment_params
     params
       .require(:appointment)
-      .permit(:title, :starts_at)
+      .permit(
+        :title,
+        :starts_at,
+        reminders_attributes: [:minutes_before]
+      )
   end
 end

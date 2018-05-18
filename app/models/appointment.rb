@@ -31,6 +31,7 @@ class Appointment < ApplicationRecord
   belongs_to :user
   has_many :reminders
   validates_associated :reminders
+  accepts_nested_attributes_for :reminders, reject_if: :all_blank
 
   def self.relevant_pending(t)
     pending.upcoming(t)
@@ -46,6 +47,10 @@ class Appointment < ApplicationRecord
     unless clashes.empty?
       errors.add(:starts_at, I18n.t("appointments.errors.messages.clashes"))
     end
+  end
+
+  def build_nested
+    reminders.build if reminders.empty?
   end
 
   def needs_confirmation?

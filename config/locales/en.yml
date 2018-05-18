@@ -35,6 +35,8 @@ en:
     appointment:
       confirm: confirm
       cancel: cancel
+    form:
+      add: add
     errors:
       messages:
         clashes: "cannot clash with other appointments"

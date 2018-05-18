@@ -1,4 +1,10 @@
 = simple_form_for appointment do |f|
   p= f.input :title
   p= f.input :starts_at, html5: true
+  = f.label :reminders
+  ul#reminders
+    = f.fields_for :reminders do |ff|
+      = render 'reminder_fields', ff: ff
+  p= link_to_add_fields t('.add'), f, :reminders,
+    {}, {'data-target': '#reminders'}
   p= f.submit 'Submit'

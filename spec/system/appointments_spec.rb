@@ -71,4 +71,32 @@ RSpec.describe "Appointments" do
     end
     expect(page).to have_content appointment.title, count: 1
   end
+
+  describe "reminders" do
+    it "can create appointments with multiple reminders" do
+      visit "/appointments/new"
+      fill_in "Title", with: "A new appointment"
+      fill_in "Starts at", with: Time.current
+      fill_in "appointment_reminders_attributes_0_minutes_before", with: 10
+      click_link "add"
+      all("#reminders input").last.set(20)
+      click_button "Submit"
+
+      expect(current_url).to end_with "/appointments"
+      expect(Appointment.last.reminders.pluck(:minutes_before)).to match_array([10, 20])
+    end
+
+    it "can add reminders while editing an appointment" do
+      a = create(:appointment)
+      # visit "/appointments/#{appointment.to_param}/edit"
+      visit edit_appointment_url(a)
+      expect(find("#reminders input").value).to eql ""
+      find("#reminders input").set(2)
+      click_link("add")
+      find("#reminders li:last-child input").set(1)
+      click_button "Submit"
+      expect(current_url).to end_with "/appointments"
+      expect(a.reload.reminders.pluck(:minutes_before)).to match_array([1, 2])
+    end
+  end
 end
