@@ -90,8 +90,10 @@ RSpec.describe Appointment, type: :model do
         Appointment.send(method, t).pluck(:id)
       end
 
-      it { expect(scoped(:upcoming, t)).to \
-        match_array [upcoming.id, relevant_pending.id, future_canceled.id] }
+      it {
+        expect(scoped(:upcoming, t)).to \
+          match_array [upcoming.id, relevant_pending.id, future_canceled.id]
+      }
       it { expect(scoped(:upcoming_confirmed, t)).to eql [upcoming.id] }
       it { expect(scoped(:past, t)).to match_array [past.id, past_canceled.id] }
       it { expect(scoped(:relevant_pending, t)).to eql [relevant_pending.id] }
