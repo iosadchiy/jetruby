@@ -18,5 +18,16 @@ RSpec.describe AppointmentsController, type: :controller do
         assert_response 200
       end
     end
+
+    describe "#create" do
+      it "creates an appointment" do
+        expect {
+          post :create, params: {
+            appointment: {title: "A1", starts_at: Time.current.to_s(:db)}
+          }
+        }.to change{Appointment.count}.by 1
+        expect(Appointment.last).to be_confirmed
+      end
+    end
   end
 end

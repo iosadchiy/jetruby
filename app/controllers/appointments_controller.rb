@@ -16,7 +16,7 @@ class AppointmentsController < ApplicationController
   end
 
   def create
-    @appointment = Appointment.create(appointment_params)
+    @appointment = Appointment.confirmed.create(appointment_params)
     respond_with @appointment
   end
 
