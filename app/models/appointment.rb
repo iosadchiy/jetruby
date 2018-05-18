@@ -29,6 +29,8 @@ class Appointment < ApplicationRecord
   default_scope { order(starts_at: :desc) }
 
   belongs_to :user
+  has_many :reminders
+  validates_associated :reminders
 
   def self.relevant_pending(t)
     pending.upcoming(t)
