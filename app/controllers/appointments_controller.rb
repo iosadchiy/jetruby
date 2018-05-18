@@ -1,7 +1,7 @@
 class AppointmentsController < ApplicationController
   def index
     t = Time.current
-    @upcoming = appointments.upcoming(t)
+    @upcoming = appointments.upcoming_confirmed(t)
     @past = appointments.past(t)
     @pending = appointments.relevant_pending(t)
     @canceled = appointments.canceled_or_obsolete(t)

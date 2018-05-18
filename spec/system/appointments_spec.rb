@@ -62,4 +62,13 @@ RSpec.describe "Appointments" do
       expect(current_url).to end_with("/appointments")
     end
   end
+
+  it "does not list pending upcoming appointment twice" do
+    appointment = create(:appointment, state: :pending, starts_at: 1.minute.since)
+    visit "/appointments"
+    within(".pending") do
+      expect(page).to have_content appointment.title
+    end
+    expect(page).to have_content appointment.title, count: 1
+  end
 end
