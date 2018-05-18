@@ -2,10 +2,18 @@ h1 Appointments
 
 p= link_to 'create an appointment', [:new, :appointment]
 
-- if @appointments.empty?
-  p No results
-- else
-  ul
-    - @appointments.each do |appointment|
-      li= link_to appointment, [:edit, appointment]
+.upcoming
+  h2 Upcoming
+  = render 'list', appointments: @upcoming
 
+.pending
+  h2 Pending (unconfirmed)
+  = render 'list', appointments: @pending
+
+.past
+  h2 Past
+  = render 'list', appointments: @past
+
+.canceled
+  h2 Canceled or obsolete
+  = render 'list', appointments: @canceled

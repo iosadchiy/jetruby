@@ -17,6 +17,18 @@
 class Appointment < ApplicationRecord
   DURATION = 1.hour
   enum state: [:pending, :confirmed, :canceled]
+  scope :upcoming, ->(t) { where("starts_at > ?", t) }
+  scope :upcoming_confirmed, ->(t) { upcoming(t).confirmed }
+  scope :past, ->(t) { where("starts_at <= ?", t) }
+  default_scope { order(starts_at: :desc) }
+
+  def self.relevant_pending(t)
+    pending.upcoming(t)
+  end
+
+  def self.canceled_or_obsolete(t)
+    canceled.or(pending.past(t))
+  end
 
   validates :title, presence: true
   validates :starts_at, presence: true

@@ -67,4 +67,40 @@ RSpec.describe Appointment, type: :model do
       expect(a1.clashes).to be_empty
     end
   end
+
+  describe "queries" do
+    context "when there're no appointments" do
+      it "everything is empty" do
+        t = Time.current
+        [:upcoming, :upcoming_confirmed, :past, :relevant_pending, :canceled_or_obsolete].each do |method|
+          expect(Appointment.send(method, t)).to be_empty
+        end
+      end
+    end
+
+    context "when multiple appointments are present" do
+      let!(:t) { Time.current }
+      let!(:upcoming) { create :appointment, starts_at: 1.hour.since(t), state: :confirmed }
+      let!(:past) { create :appointment, starts_at: t, state: :confirmed }
+      let!(:relevant_pending) { create :appointment, starts_at: 2.hours.since(t), state: :pending }
+      let!(:future_canceled) { create :appointment, starts_at: 3.hours.since(t), state: :canceled}
+      let!(:past_canceled) { create :appointment, starts_at: 1.hour.before(t), state: :canceled}
+
+      def scoped(method, t)
+        Appointment.send(method, t).pluck(:id)
+      end
+
+      it { expect(scoped(:upcoming, t)).to \
+        match_array [upcoming.id, relevant_pending.id, future_canceled.id] }
+      it { expect(scoped(:upcoming_confirmed, t)).to eql [upcoming.id] }
+      it { expect(scoped(:past, t)).to match_array [past.id, past_canceled.id] }
+      it { expect(scoped(:relevant_pending, t)).to eql [relevant_pending.id] }
+      it { expect(scoped(:canceled_or_obsolete, t)).to match_array [future_canceled.id, past_canceled.id] }
+
+      it "should be sorted by starts_at" do
+        times = Appointment.all.pluck(:starts_at)
+        expect(times).to eql times.sort.reverse
+      end
+    end
+  end
 end

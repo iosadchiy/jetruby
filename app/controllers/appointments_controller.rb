@@ -1,6 +1,10 @@
 class AppointmentsController < ApplicationController
   def index
-    @appointments = Appointment.all
+    t = Time.current
+    @upcoming = Appointment.upcoming(t)
+    @past = Appointment.past(t)
+    @pending = Appointment.relevant_pending(t)
+    @canceled = Appointment.canceled_or_obsolete(t)
   end
 
   def edit
