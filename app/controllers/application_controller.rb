@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 
   def require_login
     unless current_user.present?
-      flash[:error] = "You must be logged in to access this section"
+      flash[:error] = t('require_login')
       redirect_to [:new, :session]
     end
   end

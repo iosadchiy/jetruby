@@ -30,7 +30,11 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  require_login: "You must be logged in to access this section"
   appointments:
+    appointment:
+      confirm: confirm
+      cancel: cancel
     errors:
       messages:
         clashes: "cannot clash with other appointments"
