@@ -1,1 +1,6 @@
-li= link_to appointment, [:edit, appointment]
+li
+  = link_to appointment, [:edit, appointment]
+  - if appointment.needs_confirmation?
+    br
+    => link_to t('.confirm'), [:confirm, appointment], method: :post
+    = link_to t('.cancel'), [:cancel, appointment], method: :post

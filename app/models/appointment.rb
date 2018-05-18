@@ -46,6 +46,14 @@ class Appointment < ApplicationRecord
     end
   end
 
+  def needs_confirmation?
+    pending? && upcoming?
+  end
+
+  def upcoming?
+    starts_at > Time.current
+  end
+
   def clashes
     return [] if starts_at.nil?
     # Does not clash if A.starts_at >= B.ends_at or A.ends_at <= B.starts_at

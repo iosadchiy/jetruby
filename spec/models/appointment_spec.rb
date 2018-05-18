@@ -114,6 +114,13 @@ RSpec.describe Appointment, type: :model do
         times = Appointment.all.pluck(:starts_at)
         expect(times).to eql times.sort.reverse
       end
+
+      it "knows its status" do
+        expect(upcoming.needs_confirmation?).to be false
+        expect(future_canceled.needs_confirmation?).to be false
+        expect(relevant_pending.needs_confirmation?).to be true
+        expect(build(:appointment, starts_at: t, state: :pending).needs_confirmation?).to be false
+      end
     end
   end
 end

@@ -8,7 +8,7 @@ class AppointmentsController < ApplicationController
   end
 
   def edit
-    @appointment = appointments.find(params[:id])
+    @appointment = find_appointment
   end
 
   def new
@@ -21,8 +21,20 @@ class AppointmentsController < ApplicationController
   end
 
   def update
-    @appointment = appointments.find(params[:id])
+    @appointment = find_appointment
     @appointment.update(appointment_params)
+    respond_with @appointment
+  end
+
+  def confirm
+    @appointment = find_appointment
+    @appointment.confirmed!
+    respond_with @appointment
+  end
+
+  def cancel
+    @appointment = find_appointment
+    @appointment.canceled!
     respond_with @appointment
   end
 
@@ -30,6 +42,10 @@ class AppointmentsController < ApplicationController
 
   def appointments
     current_user.appointments
+  end
+
+  def find_appointment
+    appointments.find(params[:id])
   end
 
   def appointment_params
