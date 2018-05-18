@@ -8,10 +8,16 @@
 #  title      :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  user_id    :bigint(8)
 #
 # Indexes
 #
 #  index_appointments_on_starts_at  (starts_at)
+#  index_appointments_on_user_id    (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (user_id => users.id)
 #
 
 class Appointment < ApplicationRecord
@@ -21,6 +27,8 @@ class Appointment < ApplicationRecord
   scope :upcoming_confirmed, ->(t) { upcoming(t).confirmed }
   scope :past, ->(t) { where("starts_at <= ?", t) }
   default_scope { order(starts_at: :desc) }
+
+  belongs_to :user
 
   def self.relevant_pending(t)
     pending.upcoming(t)
@@ -43,7 +51,7 @@ class Appointment < ApplicationRecord
     # Does not clash if A.starts_at >= B.ends_at or A.ends_at <= B.starts_at
     # By DeMorgan, it clashes if A.starts_at < B.ends_at and A.ends_at > B.starts_at
     # And we don't know A.ends_at: A.ends_at > B.starts_at <=> A.starts_at > B.starts_at-duration
-    self.class.confirmed.where.not(id: id)
+    user.appointments.confirmed.where.not(id: id)
       .where("starts_at < ? AND starts_at > ?", ends_at, starts_at-DURATION)
   end
 

@@ -18,6 +18,12 @@ RSpec.describe "Appointments" do
         visit "/appointments"
         expect(page).to have_content appointment.title
       end
+
+      it "does not show appointments of others" do
+        a = create(:appointment, user: create(:user))
+        visit "/appointments"
+        expect(page).not_to have_content a.title
+      end
     end
   end
 

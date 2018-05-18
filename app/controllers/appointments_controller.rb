@@ -1,32 +1,36 @@
 class AppointmentsController < ApplicationController
   def index
     t = Time.current
-    @upcoming = Appointment.upcoming(t)
-    @past = Appointment.past(t)
-    @pending = Appointment.relevant_pending(t)
-    @canceled = Appointment.canceled_or_obsolete(t)
+    @upcoming = appointments.upcoming(t)
+    @past = appointments.past(t)
+    @pending = appointments.relevant_pending(t)
+    @canceled = appointments.canceled_or_obsolete(t)
   end
 
   def edit
-    @appointment = Appointment.find(params[:id])
+    @appointment = appointments.find(params[:id])
   end
 
   def new
-    @appointment = Appointment.new
+    @appointment = appointments.new
   end
 
   def create
-    @appointment = Appointment.confirmed.create(appointment_params)
+    @appointment = current_user.appointments.confirmed.create(appointment_params)
     respond_with @appointment
   end
 
   def update
-    @appointment = Appointment.find(params[:id])
+    @appointment = appointments.find(params[:id])
     @appointment.update(appointment_params)
     respond_with @appointment
   end
 
   private
+
+  def appointments
+    current_user.appointments
+  end
 
   def appointment_params
     params

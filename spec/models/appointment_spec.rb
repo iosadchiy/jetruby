@@ -8,10 +8,16 @@
 #  title      :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  user_id    :bigint(8)
 #
 # Indexes
 #
 #  index_appointments_on_starts_at  (starts_at)
+#  index_appointments_on_user_id    (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (user_id => users.id)
 #
 
 require 'rails_helper'
@@ -65,6 +71,11 @@ RSpec.describe Appointment, type: :model do
 
     it "does not clash with itself" do
       expect(a1.clashes).to be_empty
+    end
+
+    it "does not clash with appointments of others" do
+      a = build(:appointment, user: create(:user), starts_at: a1.starts_at)
+      expect(a.clashes).to be_empty
     end
   end
 
