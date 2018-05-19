@@ -57,7 +57,7 @@ class AppointmentsController < ApplicationController
         :title,
         :starts_at,
         :state,
-        reminders_attributes: [:id, :minutes_before]
+        reminders_attributes: [:id, :minutes_before, :_destroy]
       )
   end
 end

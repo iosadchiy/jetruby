@@ -43,3 +43,5 @@ en:
     errors:
       messages:
         clashes: "cannot clash with other appointments"
+    reminder_fields:
+      delete: 'Delete the reminder'

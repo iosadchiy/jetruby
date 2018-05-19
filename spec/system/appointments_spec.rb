@@ -81,7 +81,7 @@ RSpec.describe "Appointments" do
       fill_in "Starts at", with: Time.current
       fill_in "appointment_reminders_attributes_0_minutes_before", with: 10
       click_link "add"
-      all("#reminders input").last.set(20)
+      find("#reminders li:last-child input[type=text]").set(20)
       click_button "Submit"
 
       expect(current_url).to end_with "/appointments"
@@ -91,10 +91,10 @@ RSpec.describe "Appointments" do
     it "can add reminders while editing an appointment" do
       a = create(:appointment)
       visit edit_appointment_url(a)
-      expect(find("#reminders input").value).to eql ""
-      find("#reminders input").set(2)
+      expect(find("#reminders input[type=text]").value).to eql ""
+      find("#reminders input[type=text]").set(2)
       click_link("add")
-      find("#reminders li:last-child input").set(1)
+      find("#reminders li:last-child input[type=text]").set(1)
       click_button "Submit"
       expect(current_url).to end_with "/appointments"
       expect(a.reload.reminders.pluck(:minutes_before)).to match_array([1, 2])
@@ -103,8 +103,15 @@ RSpec.describe "Appointments" do
     it "can edit reminders" do
       a = create(:appointment_with_reminders)
       visit edit_appointment_url(a)
-      find("#reminders li input").set(100)
+      find("#reminders li input[type=text]").set(100)
       expect{click_button "Submit"}.to change{a.reminders.first.minutes_before}.to(100)
+    end
+
+    it "can delete reminders" do
+      a = create(:appointment_with_reminders)
+      visit edit_appointment_url(a)
+      within("#reminders li") { check }
+      expect{click_button "Submit"}.to change{a.reminders.count}.from(1).to(0)
     end
   end
 end

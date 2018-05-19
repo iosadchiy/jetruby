@@ -31,7 +31,7 @@ class Appointment < ApplicationRecord
   belongs_to :user
   has_many :reminders
   validates_associated :reminders
-  accepts_nested_attributes_for :reminders, reject_if: :all_blank
+  accepts_nested_attributes_for :reminders, reject_if: :all_blank, allow_destroy: true
 
   def self.relevant_pending(t)
     pending.upcoming(t)
