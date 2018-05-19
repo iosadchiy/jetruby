@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe ReminderMailer, type: :mailer do
   describe "remind_email" do
-    let(:t) { Time.parse("2018-05-19 20:00") }
+    let(:t) { Time.parse("2018-05-19 20:00 +0300") }
     let(:reminder) {
       create :reminder, appointment: create(:appointment, title: "Apt1", starts_at: t)
     }
