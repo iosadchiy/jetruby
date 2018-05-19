@@ -45,3 +45,6 @@ en:
         clashes: "cannot clash with other appointments"
     reminder_fields:
       delete: 'Delete the reminder'
+  reminder_mailer:
+    remind_email:
+      subject: 'Appointment "%{title}" starts on %{starts_at}'

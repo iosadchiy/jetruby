@@ -50,6 +50,10 @@ class Appointment < ApplicationRecord
     end
   end
 
+  def remind_email
+    user.email
+  end
+
   def build_nested
     reminders.build if reminders.empty?
   end
@@ -60,6 +64,10 @@ class Appointment < ApplicationRecord
 
   def upcoming?
     starts_at > Time.current
+  end
+
+  def upcoming_confirmed?
+    upcoming? && confirmed?
   end
 
   def clashes

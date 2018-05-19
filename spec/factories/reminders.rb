@@ -4,6 +4,7 @@
 #
 #  id             :bigint(8)        not null, primary key
 #  minutes_before :integer
+#  state          :integer          default("pending")
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  appointment_id :bigint(8)

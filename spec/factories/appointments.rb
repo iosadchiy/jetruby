@@ -23,7 +23,7 @@
 FactoryBot.define do
   factory :appointment do
     user { User.last || create(:user) }
-    title { Faker::RickAndMorty.quote }
+    title { Faker::RickAndMorty.quote + SecureRandom.uuid }
     state :confirmed
     starts_at {
       t = Appointment.order(starts_at: :desc).pluck(:starts_at).first
