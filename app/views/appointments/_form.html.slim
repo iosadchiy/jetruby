@@ -1,6 +1,8 @@
 = simple_form_for appointment do |f|
   p= f.input :title
   p= f.input :starts_at, html5: true
+  - unless f.object.new_record?
+    p= f.select :state, options_for_enum(Appointment, :state)
   = f.label :reminders
   ul#reminders
     = f.fields_for :reminders do |ff|

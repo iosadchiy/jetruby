@@ -56,7 +56,8 @@ class AppointmentsController < ApplicationController
       .permit(
         :title,
         :starts_at,
-        reminders_attributes: [:minutes_before]
+        :state,
+        reminders_attributes: [:id, :minutes_before]
       )
   end
 end

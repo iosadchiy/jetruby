@@ -57,8 +57,10 @@ RSpec.describe "Appointments" do
     it "can edit the appointment" do
       visit "/appointments/#{appointment.id}/edit"
       fill_in "Title", with: "some new title"
+      select "Canceled"
       expect{click_button "Submit"}.not_to change{Appointment.count}
       expect(appointment.reload.title).to eql "some new title"
+      expect(appointment.state).to eql "canceled"
       expect(current_url).to end_with("/appointments")
     end
   end
