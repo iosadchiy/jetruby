@@ -37,7 +37,7 @@ class Reminder < ApplicationRecord
   def remind!
     return unless pending? && appointment.upcoming_confirmed?
     schedule! and return unless time_to_remind?
-    ReminderMailer.with(reminder: self).remind_email.deliver_later
+    ReminderMailer.with(reminder: self).remind_email.deliver_now
     sent!
   end
 

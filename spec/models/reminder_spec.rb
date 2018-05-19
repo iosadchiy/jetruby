@@ -69,10 +69,7 @@ RSpec.describe Reminder, type: :model do
 
   describe "#remind!" do
     it "sends an email" do
-      reminder
-      assert_enqueued_jobs 1 do
-        reminder.remind!
-      end
+      expect{reminder.remind!}.to change{ActionMailer::Base.deliveries.size}.by(1)
     end
 
     it "does nothing if reminder's been already sent" do
