@@ -34,7 +34,7 @@ class Appointment < ApplicationRecord
   validates_associated :reminders
   accepts_nested_attributes_for :reminders, reject_if: :all_blank, allow_destroy: true
 
-  after_save :schedule_reminders!
+  before_save :schedule_reminders!
 
   def self.relevant_pending(t)
     pending.upcoming(t)
@@ -53,7 +53,10 @@ class Appointment < ApplicationRecord
   end
 
   def schedule_reminders!
-    reminders.each(&:schedule!)
+    if self.starts_at_changed?
+      reminders.each(&:pending!)
+      reminders.each(&:schedule!)
+    end
   end
 
   def remind_email

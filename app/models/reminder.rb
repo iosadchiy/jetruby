@@ -30,6 +30,10 @@ class Reminder < ApplicationRecord
     self.state ||= :pending
   end
 
+  before_save do
+    self.state = :pending if self.minutes_before_changed?
+  end
+
   after_save do
     schedule!
   end

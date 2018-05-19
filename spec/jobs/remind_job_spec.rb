@@ -12,8 +12,8 @@ RSpec.describe RemindJob, type: :job do
   it "is scheduled on appointment update" do
     assert_enqueued_jobs 0
     a = create(:appointment_with_reminders, reminders_count: 1)
-    assert_enqueued_jobs 1
+    assert_enqueued_jobs 1, only: RemindJob
     a.update(starts_at: 2.hours.since)
-    assert_enqueued_jobs 2
+    assert_enqueued_jobs 3, only: RemindJob
   end
 end

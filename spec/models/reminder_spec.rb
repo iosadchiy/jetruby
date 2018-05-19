@@ -40,6 +40,12 @@ RSpec.describe Reminder, type: :model do
     expect(build(:reminder)).to be_pending
   end
 
+  it "is pending after change" do
+    r = create(:reminder, state: :sent, minutes_before: 10)
+    r.update(minutes_before: 20)
+    expect(r).to be_pending
+  end
+
   describe '#remind_at' do
     it "calculates the time to remind" do
       t = 2.hours.since
