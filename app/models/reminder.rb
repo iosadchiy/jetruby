@@ -31,11 +31,11 @@ class Reminder < ApplicationRecord
   end
 
   after_save do
-    schedule! if pending?
+    schedule!
   end
 
   def remind!
-    return unless pending? && appointment.upcoming_confirmed?
+    return unless needed?
     schedule! and return unless time_to_remind?
     ReminderMailer.with(reminder: self).remind_email.deliver_now
     sent!
@@ -45,7 +45,12 @@ class Reminder < ApplicationRecord
     Time.current > remind_at-TIME_DELTA
   end
 
+  def needed?
+    pending? && appointment.upcoming_confirmed?
+  end
+
   def schedule!
+    return unless needed?
     RemindJob.set(wait_until: remind_at).perform_later(self)
   end
 
