@@ -83,7 +83,7 @@ RSpec.describe Appointment, type: :model do
     context "when there're no appointments" do
       it "everything is empty" do
         t = Time.current
-        [:upcoming, :upcoming_confirmed, :past, :relevant_pending, :canceled_or_obsolete].each do |method|
+        [:upcoming, :upcoming_confirmed, :past, :past_confirmed, :relevant_pending, :canceled_or_obsolete].each do |method|
           expect(Appointment.send(method, t)).to be_empty
         end
       end
@@ -107,6 +107,7 @@ RSpec.describe Appointment, type: :model do
       }
       it { expect(scoped(:upcoming_confirmed, t)).to eql [upcoming.id] }
       it { expect(scoped(:past, t)).to match_array [past.id, past_canceled.id] }
+      it { expect(scoped(:past_confirmed, t)).to match_array [past.id] }
       it { expect(scoped(:relevant_pending, t)).to eql [relevant_pending.id] }
       it { expect(scoped(:canceled_or_obsolete, t)).to match_array [future_canceled.id, past_canceled.id] }
 

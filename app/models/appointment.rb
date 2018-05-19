@@ -26,6 +26,7 @@ class Appointment < ApplicationRecord
   scope :upcoming, ->(t) { where("starts_at > ?", t) }
   scope :upcoming_confirmed, ->(t) { upcoming(t).confirmed }
   scope :past, ->(t) { where("starts_at <= ?", t) }
+  scope :past_confirmed, ->(t) { past(t).confirmed }
   default_scope { order(starts_at: :desc) }
 
   belongs_to :user

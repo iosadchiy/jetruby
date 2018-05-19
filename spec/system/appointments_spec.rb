@@ -16,7 +16,7 @@ RSpec.describe "Appointments" do
 
       it "shows list of appointments" do
         visit "/appointments"
-        expect(page).to have_content appointment.title
+        expect(page).to have_content appointment.title, count: 1
       end
 
       it "does not show appointments of others" do
@@ -38,7 +38,7 @@ RSpec.describe "Appointments" do
       click_button "Submit"
 
       expect(current_url).to end_with("/appointments")
-      expect(page).to have_content("A new appointment")
+      expect(page).to have_content("A new appointment", count: 1)
     end
 
     it "cannot create a clash" do
@@ -65,13 +65,16 @@ RSpec.describe "Appointments" do
     end
   end
 
-  it "does not list pending upcoming appointment twice" do
-    appointment = create(:appointment, state: :pending, starts_at: 1.minute.since)
-    visit "/appointments"
-    within(".pending") do
-      expect(page).to have_content appointment.title
+  describe "state" do
+    it "does not list pending upcoming appointment twice" do
+      appointment = create(:appointment, state: :pending, starts_at: 1.minute.since)
+      appointment2 = create(:appointment, state: :pending, starts_at: 1.hour.ago)
+      visit "/appointments"
+      within(".pending") { expect(page).to have_content appointment.title }
+      within(".canceled") { expect(page).to have_content appointment2.title }
+      expect(page).to have_content appointment.title, count: 1
+      expect(page).to have_content appointment2.title, count: 1
     end
-    expect(page).to have_content appointment.title, count: 1
   end
 
   describe "reminders" do
