@@ -90,7 +90,6 @@ RSpec.describe "Appointments" do
 
     it "can add reminders while editing an appointment" do
       a = create(:appointment)
-      # visit "/appointments/#{appointment.to_param}/edit"
       visit edit_appointment_url(a)
       expect(find("#reminders input").value).to eql ""
       find("#reminders input").set(2)
@@ -99,6 +98,13 @@ RSpec.describe "Appointments" do
       click_button "Submit"
       expect(current_url).to end_with "/appointments"
       expect(a.reload.reminders.pluck(:minutes_before)).to match_array([1, 2])
+    end
+
+    it "can edit reminders" do
+      a = create(:appointment_with_reminders)
+      visit edit_appointment_url(a)
+      find("#reminders li input").set(100)
+      expect{click_button "Submit"}.to change{a.reminders.first.minutes_before}.to(100)
     end
   end
 end

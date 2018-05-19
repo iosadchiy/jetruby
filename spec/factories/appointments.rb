@@ -29,5 +29,13 @@ FactoryBot.define do
       t = Appointment.order(starts_at: :desc).pluck(:starts_at).first
       t ? t+1.hour : Time.current
     }
+
+    factory :appointment_with_reminders do
+      transient { reminders_count 1 }
+      after(:create) do |appointment, eva|
+        create_list(:reminder, eva.reminders_count, appointment: appointment)
+        appointment.reload
+      end
+    end
   end
 end
