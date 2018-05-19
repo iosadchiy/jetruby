@@ -30,10 +30,15 @@ class Reminder < ApplicationRecord
     self.state ||= :pending
   end
 
+  after_save do
+    schedule! if pending?
+  end
+
   def remind!
     return unless pending? && appointment.upcoming_confirmed?
     schedule! and return unless time_to_remind?
     ReminderMailer.with(reminder: self).remind_email.deliver_later
+    sent!
   end
 
   def time_to_remind?

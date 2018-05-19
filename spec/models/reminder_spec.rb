@@ -51,15 +51,25 @@ RSpec.describe Reminder, type: :model do
 
   describe "#schedule!" do
     it "schedules the RemindJob" do
+      reminder
       expect(RemindJob).to receive(:set).with(wait_until: 1.minute.before(t)).and_call_original
       assert_enqueued_with(job: RemindJob, args: [reminder]) do
         reminder.schedule!
+      end
+    end
+
+    it "is called on save" do
+      assert_enqueued_with(job: RemindJob) do
+        assert_enqueued_jobs 2 do
+          create(:reminder).update(minutes_before: 20)
+        end
       end
     end
   end
 
   describe "#remind!" do
     it "sends an email" do
+      reminder
       assert_enqueued_jobs 1 do
         reminder.remind!
       end
@@ -81,6 +91,10 @@ RSpec.describe Reminder, type: :model do
           reminder.remind!
         end
       end
+    end
+
+    it "marks reminder as sent on success" do
+      expect{reminder.remind!}.to change{reminder.state.to_sym}.from(:pending).to(:sent)
     end
   end
 end
