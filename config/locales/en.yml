@@ -34,6 +34,7 @@ en:
   application:
     top_nav:
       home: Home
+      profile: Profile
   appointments:
     appointment:
       confirm: confirm
