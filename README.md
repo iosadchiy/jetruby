@@ -3,8 +3,19 @@
 [![Build Status](https://travis-ci.org/iosadchiy/jetruby.svg?branch=master)](https://travis-ci.org/iosadchiy/jetruby)
 [![Codecov](https://img.shields.io/codecov/c/github/iosadchiy/jetruby.svg)](https://codecov.io/gh/iosadchiy/jetruby)
 
-
 Heroku: https://jetruby-iosadchiy.herokuapp.com/
+
+
+## User stories
+
+* As a user I can register in the system
+* As a user I can see a list of my upcoming and past appointments
+* As a user I can create new appointment and with as many reminders as I need
+* As a user in the web interface I can see a list of submitted appointments through the API and confirm or cancel them
+* As a guest, if I know user api key, I can post request to create appointment on a specific date with defined reminder
+* As a quest, if I know user API key, I can receive the list of user appointments and filter it by date (let’s keep it simple, can specify only one day in params and receive appointments exactly during this day)
+* As a system I should be able to monitor API usage and store general statistics per each user
+* As a system I should be able to send reminders for appointments in the specified time
 
 
 ## Choice explanation
