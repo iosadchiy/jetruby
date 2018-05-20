@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
 
   resource :profile, only: :show
+  resources :stats, only: :index
 
   namespace :api do
     namespace :v1 do

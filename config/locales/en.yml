@@ -35,6 +35,7 @@ en:
     top_nav:
       home: Home
       profile: Profile
+      stats: Stats
   appointments:
     appointment:
       confirm: confirm

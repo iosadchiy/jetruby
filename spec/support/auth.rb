@@ -1,5 +1,5 @@
 def build_auth(user=nil)
-  user ||= create(:user)
+  user ||= create(:user, email: "test@example.com")
   OmniAuth::AuthHash.new({
     provider: "google_oauth2",
     uid: user.uid,

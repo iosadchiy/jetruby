@@ -22,7 +22,7 @@ FactoryBot.define do
   factory :user do
     provider "google_oauth2"
     uid { SecureRandom.uuid }
-    email "test@example.com"
+    email { Faker::Internet.email }
     oauth_token { SecureRandom.uuid }
     oauth_expires_at { 1.hour.from_now }
   end
