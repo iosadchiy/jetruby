@@ -12,8 +12,9 @@
 #
 # Indexes
 #
-#  index_appointments_on_starts_at  (starts_at)
-#  index_appointments_on_user_id    (user_id)
+#  index_appointments_on_starts_at            (starts_at)
+#  index_appointments_on_state_and_starts_at  (state,starts_at)
+#  index_appointments_on_user_id              (user_id)
 #
 # Foreign Keys
 #
@@ -34,8 +35,6 @@ class Appointment < ApplicationRecord
   validates_associated :reminders
   accepts_nested_attributes_for :reminders, reject_if: :all_blank, allow_destroy: true
 
-  before_save :schedule_reminders!
-
   def self.relevant_pending(t)
     pending.upcoming(t)
   end
@@ -49,13 +48,6 @@ class Appointment < ApplicationRecord
   validate do
     unless clashes.empty?
       errors.add(:starts_at, I18n.t("appointments.errors.messages.clashes"))
-    end
-  end
-
-  def schedule_reminders!
-    if self.starts_at_changed?
-      reminders.each(&:pending!)
-      reminders.each(&:schedule!)
     end
   end
 

@@ -58,6 +58,8 @@ gem "omniauth-google-oauth2"
 
 # Async jobs
 gem 'sidekiq'
+# Cron-like periodic jobs
+gem 'sidekiq-scheduler'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

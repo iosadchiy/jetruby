@@ -12,8 +12,9 @@
 #
 # Indexes
 #
-#  index_appointments_on_starts_at  (starts_at)
-#  index_appointments_on_user_id    (user_id)
+#  index_appointments_on_starts_at            (starts_at)
+#  index_appointments_on_state_and_starts_at  (state,starts_at)
+#  index_appointments_on_user_id              (user_id)
 #
 # Foreign Keys
 #

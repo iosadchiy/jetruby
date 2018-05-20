@@ -11,7 +11,8 @@
 #
 # Indexes
 #
-#  index_reminders_on_appointment_id  (appointment_id)
+#  index_reminders_on_appointment_id            (appointment_id)
+#  index_reminders_on_appointment_id_and_state  (appointment_id,state)
 #
 # Foreign Keys
 #
@@ -26,22 +27,27 @@ class Reminder < ApplicationRecord
   validates :minutes_before, presence: true,
     numericality: {only_integer: true, greater_than_or_equal_to: 0}
 
+  scope :need_to_be_sent_at, ->(time) {
+    pending
+      .joins(:appointment)
+      .where(appointments: {state: :confirmed})
+      .where("starts_at >= timestamp ?", time)
+      .where("starts_at - minutes_before * interval '1 minute' <= timestamp ?", time)
+  }
+
   after_initialize do
     self.state ||= :pending
   end
 
-  before_save do
-    self.state = :pending if self.minutes_before_changed?
-  end
-
-  after_save do
-    schedule!
+  def self.send_all_at(time)
+    need_to_be_sent_at(time).each do |reminder|
+      reminder.remind!
+    end
   end
 
   def remind!
     return unless needed?
-    schedule! and return unless time_to_remind?
-    ReminderMailer.with(reminder: self).remind_email.deliver_now
+    ReminderMailer.with(reminder: self).remind_email.deliver_later
     sent!
   end
 
@@ -51,11 +57,6 @@ class Reminder < ApplicationRecord
 
   def needed?
     pending? && appointment.upcoming_confirmed?
-  end
-
-  def schedule!
-    return unless needed?
-    RemindJob.set(wait_until: remind_at).perform_later(self)
   end
 
   def remind_at

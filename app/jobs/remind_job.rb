@@ -1,7 +1,7 @@
 class RemindJob < ApplicationJob
   queue_as :default
 
-  def perform(reminder)
-    reminder.remind!
+  def perform
+    Reminder.send_all_at(Time.current)
   end
 end

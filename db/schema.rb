@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_19_152531) do
+ActiveRecord::Schema.define(version: 2018_05_20_085323) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2018_05_19_152531) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["starts_at"], name: "index_appointments_on_starts_at"
+    t.index ["state", "starts_at"], name: "index_appointments_on_state_and_starts_at"
     t.index ["user_id"], name: "index_appointments_on_user_id"
   end
 
@@ -32,6 +33,7 @@ ActiveRecord::Schema.define(version: 2018_05_19_152531) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "state", default: 0
+    t.index ["appointment_id", "state"], name: "index_reminders_on_appointment_id_and_state"
     t.index ["appointment_id"], name: "index_reminders_on_appointment_id"
   end
 

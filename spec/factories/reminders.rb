@@ -11,7 +11,8 @@
 #
 # Indexes
 #
-#  index_reminders_on_appointment_id  (appointment_id)
+#  index_reminders_on_appointment_id            (appointment_id)
+#  index_reminders_on_appointment_id_and_state  (appointment_id,state)
 #
 # Foreign Keys
 #

@@ -4,16 +4,9 @@ RSpec.describe RemindJob, type: :job do
   include ActiveJob::TestHelper
 
   it "issues a reminder" do
-    reminder = instance_double(Reminder)
-    expect(reminder).to receive(:remind!)
-    RemindJob.perform_now(reminder)
-  end
-
-  it "is scheduled on appointment update" do
-    assert_enqueued_jobs 0
-    a = create(:appointment_with_reminders, reminders_count: 1)
-    assert_enqueued_jobs 1, only: RemindJob
-    a.update(starts_at: 2.hours.since)
-    assert_enqueued_jobs 3, only: RemindJob
+    reminder = create(:reminder)
+    expect(Reminder.need_to_be_sent_at(Time.current)).to include(reminder)
+    RemindJob.perform_now
+    expect(reminder.reload).to be_sent
   end
 end
