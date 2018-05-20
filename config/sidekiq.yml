@@ -1,4 +1,4 @@
 :schedule:
   remind_job:
-    cron: '/30 * * * * *'   # Runs every 30 seconds
+    cron: '*/30 * * * * *'   # Runs every 30 seconds
     class: RemindJob
