@@ -39,4 +39,10 @@ class User < ApplicationRecord
       user.save!
     end
   end
+
+  def appointments_by_date(date)
+    t = Time.parse(date)
+    self.appointments.where("starts_at >= timestamp ?\
+      AND starts_at < timestamp ? + interval '1 day'", t, t)
+  end
 end
