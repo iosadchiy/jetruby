@@ -33,6 +33,20 @@ RSpec.describe Appointment, type: :model do
     expect(a.ends_at - a.starts_at).to eql 1.hour.to_f
   end
 
+  it "reschedules reminders on save" do
+    a = create(:appointment, starts_at: 20.minutes.since)
+    r1 = create(:reminder, appointment: a, minutes_before: 10, state: :pending)
+    r2 = create(:reminder, appointment: a, minutes_before: 20, state: :sent)
+
+    a.update(starts_at: 15.minutes.since)
+    expect(r1.reload).to be_pending
+    expect(r2.reload).to be_sent
+
+    a.update(starts_at: 25.minutes.since)
+    expect(r1.reload).to be_pending
+    expect(r2.reload).to be_pending
+  end
+
   describe "validations" do
     it "does not allow clashes" do
       t = Time.current+1.hour

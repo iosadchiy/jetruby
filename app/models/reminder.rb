@@ -39,9 +39,18 @@ class Reminder < ApplicationRecord
     self.state ||= :pending
   end
 
+  before_save :reschedule!
+
   def self.send_all_at(time)
     need_to_be_sent_at(time).each do |reminder|
       reminder.remind!
+    end
+  end
+
+  def reschedule!
+    if !state_changed? && minutes_before_changed? &&
+      appointment.upcoming_confirmed? && Time.current < remind_at
+      self.state = :pending
     end
   end
 

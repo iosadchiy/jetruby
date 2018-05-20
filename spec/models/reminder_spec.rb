@@ -41,6 +41,12 @@ RSpec.describe Reminder, type: :model do
     expect(build(:reminder)).to be_pending
   end
 
+  it "can be rescheduled" do
+    r = create(:reminder, state: :sent, appointment: create(:appointment, starts_at: 20.minutes.since))
+    expect{r.update(minutes_before: 15)}
+      .to change{r.state.to_sym}.from(:sent).to(:pending)
+  end
+
   describe '#remind_at' do
     it "calculates the time to remind" do
       t = 2.hours.since

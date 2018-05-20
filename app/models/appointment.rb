@@ -35,6 +35,8 @@ class Appointment < ApplicationRecord
   validates_associated :reminders
   accepts_nested_attributes_for :reminders, reject_if: :all_blank, allow_destroy: true
 
+  before_save :reschedule_reminders!
+
   def self.relevant_pending(t)
     pending.upcoming(t)
   end
@@ -48,6 +50,18 @@ class Appointment < ApplicationRecord
   validate do
     unless clashes.empty?
       errors.add(:starts_at, I18n.t("appointments.errors.messages.clashes"))
+    end
+  end
+
+  def reschedule_reminders!
+    if upcoming_confirmed?
+      reminders.all.each do |r|
+        if r.remind_at > Time.current
+          r.pending!
+        else
+          r.sent!
+        end
+      end
     end
   end
 
