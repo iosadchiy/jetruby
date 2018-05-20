@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_20_111515) do
+ActiveRecord::Schema.define(version: 2018_05_20_191018) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "api_stats", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "index_n"
+    t.float "index_avg"
+    t.bigint "create_n"
+    t.float "create_avg"
+    t.index ["user_id"], name: "index_api_stats_on_user_id"
+  end
 
   create_table "appointments", force: :cascade do |t|
     t.integer "state"
@@ -50,6 +59,7 @@ ActiveRecord::Schema.define(version: 2018_05_20_111515) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "api_stats", "users"
   add_foreign_key "appointments", "users"
   add_foreign_key "reminders", "appointments"
 end

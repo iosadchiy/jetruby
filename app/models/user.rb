@@ -20,13 +20,19 @@
 
 class User < ApplicationRecord
   has_many :appointments
+  has_one :api_stat, autosave: true
 
   validates :api_key, presence: true, uniqueness: true
+  validates :api_stat, presence: true
 
-  before_validation :ensure_api_key
+  before_validation :ensure_api_key, :ensure_api_stat
 
   def ensure_api_key
     self.api_key = SecureRandom.uuid.gsub("-", "") unless self.api_key.present?
+  end
+
+  def ensure_api_stat
+    self.api_stat ||= build_api_stat
   end
 
   def self.from_omniauth(auth)
@@ -37,6 +43,12 @@ class User < ApplicationRecord
       user.oauth_token = auth.credentials.token
       user.oauth_expires_at = Time.at(auth.credentials.expires_at)
       user.save!
+    end
+  end
+
+  def self.from_authorization_header(authorization_header)
+    if authorization_header =~ /^Token token=(.*)$/
+      User.find_by(api_key: $1)
     end
   end
 

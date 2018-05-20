@@ -10,9 +10,7 @@ module Api
       end
 
       def current_user
-        @current_user ||= if request.headers['Authorization'] =~ /^Token token=(.*)$/
-          User.find_by(api_key: $1)
-        end
+        @current_user ||= User.from_authorization_header(request.headers['Authorization'])
       end
     end
   end
