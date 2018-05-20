@@ -60,10 +60,6 @@ class Reminder < ApplicationRecord
     sent!
   end
 
-  def time_to_remind?
-    Time.current > remind_at-TIME_DELTA
-  end
-
   def needed?
     pending? && appointment.upcoming_confirmed?
   end
