@@ -1,4 +1,9 @@
 class AppointmentsController < ApplicationController
+  rescue_from ActiveRecord::RecordInvalid do |e|
+    flash[:error] = e.to_s
+    redirect_to :root
+  end
+
   def index
     t = Time.current
     @upcoming = appointments.upcoming_confirmed(t)

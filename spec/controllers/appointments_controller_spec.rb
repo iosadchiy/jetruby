@@ -45,6 +45,16 @@ RSpec.describe AppointmentsController, type: :controller do
       it "can cancel the appointment" do
         change_and_check_state(:cancel, :confirmed, :canceled)
       end
+
+      it "redirects to root when cannot confirm an appointment" do
+        a = create(:appointment, state: :pending)
+        b = create(:appointment, starts_at: a.starts_at, state: :pending)
+        a.confirmed!
+        post :confirm, params: {id: b.id}
+        expect(response).to redirect_to :root
+        expect(flash[:error]).to include "cannot clash"
+        expect(b.reload).to be_pending
+      end
     end
   end
 end
