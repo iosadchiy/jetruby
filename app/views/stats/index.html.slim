@@ -9,5 +9,5 @@ table
     - @api_stats.each do |stat|
       tr
         td= stat.user.email
-        td #{stat.index_n} requests, #{stat.index_avg}ms on average
-        td #{stat.create_n} requests, #{stat.create_avg}ms on average
+        td #{stat.index_n} requests, #{'%.2f' % stat.index_avg}ms on average
+        td #{stat.create_n} requests, #{'%.2f' % stat.create_avg}ms on average
