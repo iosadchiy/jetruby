@@ -2,7 +2,7 @@ module Api
   module V1
     class AppointmentsController < ApiController
       rescue_from ActiveRecord::RecordInvalid do |e|
-        render json: e, status: :unprocessable_entity
+        render json: {error: e}, status: :unprocessable_entity
       end
 
       def index

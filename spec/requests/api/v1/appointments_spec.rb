@@ -78,6 +78,7 @@ RSpec.describe "Appointments API" do
           post 'api/v1/appointments', {appointment: {title: ""}}
         }.not_to change{user.appointments.count}
         expect(last_response).to be_unprocessable
+        expect(body['error']).to include "Validation failed"
       end
     end
   end
