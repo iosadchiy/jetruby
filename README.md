@@ -3,8 +3,6 @@
 [![Build Status](https://travis-ci.org/iosadchiy/jetruby.svg?branch=master)](https://travis-ci.org/iosadchiy/jetruby)
 [![Codecov](https://img.shields.io/codecov/c/github/iosadchiy/jetruby.svg)](https://codecov.io/gh/iosadchiy/jetruby)
 
-Heroku: https://jetruby-iosadchiy.herokuapp.com/
-
 
 ## User stories
 
@@ -67,6 +65,9 @@ curl -H "Authorization: Token token=YOUR_API_KEY" -X POST -d "appointment[title]
 
 
 ## Deployment
+
+The application can be seen in action here: https://jetruby-iosadchiy.herokuapp.com/
+
 
 ### Heroku
 
